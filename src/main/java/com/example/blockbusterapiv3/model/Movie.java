@@ -41,14 +41,14 @@ public class Movie{
 
     @OneToMany(mappedBy = "movie" , cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<Rating> ratings;
-    
+    private List<Rating> ratings = new ArrayList<>();
 
     public Movie(String title, int releaseYear, MovieGenre genre) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.genre = genre;
-        this.isRented = false; // Default value for isRented
+        this.isRented = false;
+        this.ratings = new ArrayList<>();
     }
-    
+
 }

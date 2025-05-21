@@ -4,6 +4,7 @@ import com.example.blockbusterapiv3.model.*;
 import com.example.blockbusterapiv3.service.CustomerService;
 import com.example.blockbusterapiv3.service.MovieService;
 import com.example.blockbusterapiv3.service.RatingService;
+import com.example.blockbusterapiv3.service.RentalService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +17,13 @@ public class DataLoader{
     private final MovieService movieService; // Service for performing CRUD operations on movies
     private final CustomerService customerService;
     private final RatingService ratingService;
+    private final RentalService rentingService;
 
-    public DataLoader(MovieService movieService, CustomerService customerService, RatingService ratingService) {
+    public DataLoader(MovieService movieService, CustomerService customerService, RatingService ratingService, RentalService rentingService) {
         this.movieService = movieService; // Assigning the injected service to the class variable
         this.customerService = customerService;
         this.ratingService = ratingService;
+        this.rentingService = rentingService;
     }
 
     @PostConstruct
@@ -91,7 +94,6 @@ public class DataLoader{
 
                 if (john != null && shawshank != null) {
                     ratingService.addRating(new Rating( 9, shawshank, john));
-                    ratingService.addRating(new Rating( 9, matrix, john));
                 }
                 if (jane != null && inception != null) {
                     ratingService.addRating(new Rating( 8, inception, jane));
@@ -101,6 +103,37 @@ public class DataLoader{
                 }
                 if (bob != null && godfather != null) {
                     ratingService.addRating(new Rating(10, godfather, bob));
+                }
+                // Add more sample ratings as needed
+            }
+        }
+
+        // Add sample rentals if none exist
+        if (rentingService.getAllRentals().isEmpty()) {
+            List<Customer> customers = customerService.getAllCustomers();
+            List<Movie> movies = movieService.getAllMovies();
+            if (!customers.isEmpty() && !movies.isEmpty()) {
+                Customer john = customers.stream().filter(c -> c.getEmail().equals("john.doe@example.com")).findFirst().orElse(null);
+                Customer jane = customers.stream().filter(c -> c.getEmail().equals("jane.smith@example.com")).findFirst().orElse(null);
+                Customer alice = customers.stream().filter(c -> c.getEmail().equals("alice.johnson@example.com")).findFirst().orElse(null);
+                Customer bob = customers.stream().filter(c -> c.getEmail().equals("bob.brown@example.com")).findFirst().orElse(null);
+
+                Movie shawshank = movies.stream().filter(m -> m.getTitle().equals("The Shawshank Redemption")).findFirst().orElse(null);
+                Movie inception = movies.stream().filter(m -> m.getTitle().equals("Inception")).findFirst().orElse(null);
+                Movie matrix = movies.stream().filter(m -> m.getTitle().equals("The Matrix")).findFirst().orElse(null);
+                Movie godfather = movies.stream().filter(m -> m.getTitle().equals("The Godfather")).findFirst().orElse(null);
+
+                if (john != null && shawshank != null) {
+                    rentingService.createRental(shawshank,john,7);
+                }
+                if (jane != null && inception != null) {
+                    rentingService.createRental(inception,jane,7);
+                }
+                if (alice != null && matrix != null) {
+                    rentingService.createRental(matrix,alice,14);
+                }
+                if (bob != null && godfather != null) {
+                    rentingService.createRental(godfather,bob,3);
                 }
                 // Add more sample ratings as needed
             }

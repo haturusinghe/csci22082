@@ -45,12 +45,18 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<Rating> ratings;
+    private List<Rating> ratings = new java.util.ArrayList<>();
 
-   public Customer(String firstName, String lastName, String email) {
+    @OneToMany(mappedBy = "customer" , cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Rental> rentals = new java.util.ArrayList<>();
+
+    public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.ratings = new java.util.ArrayList<>();
+        this.rentals = new java.util.ArrayList<>();
     }
 
     @PrePersist // JPA annotation to specify that this method should be called before the entity is persisted (saved) to the database
