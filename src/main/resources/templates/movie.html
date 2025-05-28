@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie List</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        .container { max-width: 900px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px 8px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #3498db; color: #fff; }
+        tr:hover { background: #f1f1f1; }
+        a.btn { display: inline-block; margin-bottom: 20px; background: #3498db; color: #fff; padding: 10px 24px; border-radius: 5px; text-decoration: none; }
+        a.btn:hover { background: #217dbb; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a class="btn" href="/">Back to Welcome</a>
+    <a class="btn" href="/movies/add">Add Movie</a>
+    <h1>Movie List</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Release Year</th>
+            <th>Rented</th>
+        </tr>
+        </thead>
+        <tbody id="movieTableBody">
+        <tr th:each="movie : ${movies}">
+            <td th:text="${movie.id}"></td>
+            <td th:text="${movie.title}"></td>
+            <td th:text="${movie.genre}"></td>
+            <td th:text="${movie.releaseYear}"></td>
+            <td th:text="${movie.rented ? 'Yes' : 'No'}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
